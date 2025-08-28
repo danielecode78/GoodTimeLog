@@ -191,5 +191,5 @@ module.exports.deleteExp = async (req, res) => {
     await cloudinary.uploader.destroy(image.filename);
   }
   req.flash("success", "Esperienza eliminata con successo!");
-  res.redirect("/experiences");
+  res.redirect("/experiences/myDiary");
 };

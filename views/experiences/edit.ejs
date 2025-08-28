@@ -310,13 +310,18 @@ inputFile.addEventListener("change", (e) => {
     clearTimeout(delayLocation);
     delayLocation = setTimeout(() => {
       if (locationInput.value.length > 3) {
-        dropdownLocation.classList.add("show");
-        spinnerLocation.style.display = "block";
         fetch(
           `https://nominatim.openstreetmap.org/search?q=${locationInput.value}&format=json&limit=10&addressdetails=1`
         )
           .then((res) => res.json())
           .then((data) => {
+            if (data.length < 1) {
+              dropdownLocation.classList.remove("show");
+              return;
+            } else {
+              dropdownLocation.classList.add("show");
+              spinnerLocation.style.display = "block";
+            }
             dropdownLocation.innerHTML = "";
             data.forEach((el) => {
               const adrs = el.address;
@@ -358,7 +363,7 @@ inputFile.addEventListener("change", (e) => {
               }
             });
             spinnerLocation.style.display = "none";
-          })
+})
           .catch(function (err) {
             console.log("Errore", err);
             spinnerLocation.style.display = "none";
@@ -424,8 +429,6 @@ out body;
 
 `;
 
-        dropdownTitle.classList.add("show");
-        spinnerTitle.style.display = "block";
         fetch("https://overpass-api.de/api/interpreter", {
           method: "POST",
           body: new URLSearchParams({ data: bodyQuery }),
@@ -435,6 +438,13 @@ out body;
         })
           .then((response) => response.json())
           .then((data) => {
+            if (data.elements.length < 1) {
+              dropdownTitle.classList.remove("show");
+              return;
+            } else {
+              dropdownTitle.classList.add("show");
+              spinnerTitle.style.display = "block";
+            }
             dropdownTitle.innerHTML = "";
             const backupElements = [];
             const uniqueElements = data.elements
@@ -507,11 +517,15 @@ out body;
               });
 
             spinnerTitle.style.display = "none";
-          })
+})
           .catch((error) => {
             console.error("Errore nella richiesta Overpass:", error);
             spinnerTitle.style.display = "none";
           });
+      } else {
+        dropdownTitle.classList.remove("show");
+        dropdownTitle.innerHTML = "";
+        spinnerTitle.style.display = "none";
       }
     }, 300);
   });
