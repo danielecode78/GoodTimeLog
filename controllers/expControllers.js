@@ -143,7 +143,6 @@ module.exports.renderEdit = async (req, res) => {
 };
 
 module.exports.addExp = async (req, res, next) => {
-  console.log(req.body.experiences.coordinates);
   const parsedCoordinates = JSON.parse(req.body.experiences.coordinates);
   const myexp = new Experience({
     ...req.body.experiences,
