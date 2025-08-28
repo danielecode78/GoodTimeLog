@@ -173,21 +173,24 @@ module.exports.editExp = async (req, res) => {
   }));
   myexp.images.push(...imgsArr);
   myexp.author = req.user._id;
-  await myexp.save();
   if (req.body.deleteImages) {
     for (let filename of req.body.deleteImages) {
       await cloudinary.uploader.destroy(filename);
     }
-    await Experience.updateOne({
-      $pull: { images: { filename: { $in: req.body.deleteImages } } },
-    });
+    myexp.images = myexp.images.filter(
+      (img) => !req.body.deleteImages.includes(img.filename)
+    );
   }
+  await myexp.save();
   req.flash("success", "Esperienza modificata con successo!");
   res.redirect(`/experiences/${req.params.id}`);
 };
 
 module.exports.deleteExp = async (req, res) => {
-  await Experience.findByIdAndDelete(req.params.id);
+  const myexp = await Experience.findByIdAndDelete(req.params.id);
+  for (let image of myexp.images) {
+    await cloudinary.uploader.destroy(image.filename);
+  }
   req.flash("success", "Esperienza eliminata con successo!");
   res.redirect("/experiences");
 };
