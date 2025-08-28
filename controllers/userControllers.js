@@ -35,7 +35,7 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.makeLogin = async (req, res) => {
   req.flash("success", `Bentornato/a! Felice di rivederti!`);
-  const redirectUrl = res.locals.returnTo || "/experiences";
+  const redirectUrl = res.locals.returnTo || "/experiences/myDiary";
   res.redirect(redirectUrl);
 };
 
