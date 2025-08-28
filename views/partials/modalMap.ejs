@@ -1,0 +1,111 @@
+<div
+  class="modal fade"
+  id="schedaZoom"
+  tabindex="-1"
+  aria-labelledby="titoloScheda"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titoloScheda">Mappa esperienze</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Chiudi"></button>
+      </div>
+      <div style="margin-top: 16px; margin-left: 16px">
+        <div class="d-flex flex-wrap gap-2">
+          <a onclick='updateMap("")' class="btn btn-secondary">Tutti</a>
+          <a onclick='updateMap("Cibo")' class="btn btn-danger">Cibo</a>
+          <a onclick='updateMap("Dormire")' class="btn btn-primary">Dormire</a>
+          <a onclick='updateMap("Natura")' class="btn btn-success">Natura</a>
+          <a onclick='updateMap("Museo")' class="btn bg-museum">Museo</a>
+          <a onclick='updateMap("Città")' class="btn btn-warning">Città</a>
+          <a onclick='updateMap("Per bambini")' class="btn bg-pink"
+            >Per bambini</a
+          >
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="map" class="w-100" style="height: 80vh"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Chiudi
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  let map;
+  let markerGroup;
+  const modal = document.getElementById("schedaZoom");
+  const updateMap = (category) => {
+    if (markerGroup) {
+    markerGroup.clearLayers();
+    }
+    const bounds = L.latLngBounds([]);
+    const diary = <%- JSON.stringify(diary) %>;
+    fetch(
+      `/experiences/showMap?diary=${JSON.stringify(diary)}&category=${category}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        markerGroup = L.layerGroup().addTo(map);
+
+        data.forEach((el) => {
+          const coords = el.coordinates;
+          const lat = coords.lat;
+          const lon = coords.lon;
+
+          if (typeof lat === "number" && typeof lon === "number") {
+            const marker = L.marker([lat, lon]);
+            marker.bindPopup(`
+              <div class="card">
+          <div class="card-header">
+            <a href="/experiences/${el._id}">
+      <strong>${el.date} - ${el.description}</strong>
+            </a>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i>presso</i> ${el.title}</li>
+            <li class="list-group-item">
+                <span class="d-inline">${el.location}</span>
+            </li>
+            <li class="list-group-item">
+                        <a
+                        href="https://www.google.com/maps/search/?api=1&query=${el.title}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                        <i class="fas fa-map-marker-alt"></i> Vedi su Google Maps
+                        </a>
+            </li>
+          </ul>
+        </div>
+          `);
+            marker.addTo(markerGroup);
+            bounds.extend(marker.getLatLng());
+          }
+        });
+        if (data.length < 1) {
+            map.setView([41.8961, 12.4906], 5);
+        } else {
+            map.fitBounds(bounds);
+        }
+      })
+      .catch((err) => console.error("Errore nel fetch:", err));
+  };
+
+  modal.addEventListener("shown.bs.modal", function () {
+    if (!map) {
+      map = L.map("map").setView([41.8961, 12.4906], 5);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+    }
+    updateMap("");
+  });
+</script>

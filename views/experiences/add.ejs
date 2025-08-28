@@ -1,0 +1,423 @@
+<% layout("/layouts/boilerplate") %>
+<link rel="stylesheet" href="/css/stars.css" />
+
+<div class="card rounded">
+  <div class="card-header">
+    <h1 class="text-center text-primary">Aggiungi Esperienza</h1>
+  </div>
+  <div class="card-body col-8 mx-auto">
+    <form
+      action="/experiences"
+      method="POST"
+      class="needs-validation"
+      novalidate
+      enctype="multipart/form-data">
+      <div class="dropdown mb-3">
+        <div class="d-flex justify-content-between">
+          <label class="form-label" for="location">Luogo</label>
+          <a onclick="geoLocation()" class="btn btn-sm">
+            📍 Ottieni la tua posizione
+          </a>
+        </div>
+        <input
+          class="form-control"
+          type="text"
+          id="location"
+          name="experiences[location]"
+          required
+          autocomplete="off" />
+        <div id="gps-loading" style="display: none">
+          <span>Localizzazione in corso...</span>
+        </div>
+        <input
+          type="hidden"
+          id="coordinates-hidden"
+          name="experiences[coordinates]" />
+        <ul id="dropdown-location" class="dropdown-menu">
+          <div
+            id="spinner-location"
+            class="text-center mt-2"
+            style="display: none">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Caricamento...</span>
+            </div>
+          </div>
+        </ul>
+        <div id="map" class="mt-3"></div>
+      </div>
+      <div class="mb-3 dropdown">
+        <label class="form-label" for="title">Nome</label>
+        <input
+          class="form-control"
+          type="text"
+          id="title"
+          name="experiences[title]"
+          required
+          autocomplete="off" />
+        <ul id="dropdown-title" class="dropdown-menu">
+          <div
+            id="spinner-title"
+            class="text-center mt-2"
+            style="display: none">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Caricamento...</span>
+            </div>
+          </div>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 mb-3">
+          <label class="form-label" for="date">Data</label>
+          <input
+            class="form-control"
+            type="date"
+            id="date"
+            name="experiences[date]"
+            required />
+        </div>
+        <div class="col-lg-6 mb-3">
+          <label class="form-label" for="type">Tipologia</label>
+          <select class="form-select" id="type" name="experiences[type]">
+            <% for (let type of types) { %>
+            <option value="<%= type %>"><%= type %></option>
+            <% } %>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="description">Titolo</label>
+        <textarea
+          class="form-control"
+          id="description"
+          rows="2"
+          cols="50"
+          name="experiences[description]"
+          required></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="story">Esperienza</label>
+        <textarea
+          class="form-control"
+          id="story"
+          rows="4"
+          cols="50"
+          name="experiences[story]"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" id="formFile">Immagini</label>
+        <input
+          class="form-control"
+          type="file"
+          id="formFile"
+          name="images"
+          multiple />
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col-lg-5 d-flex gap-3 mb-3 align-items-center">
+          <label class="form-label mt-2" for="price">Prezzo</label>
+          <div class="input-group align-items-center">
+            <span id="price-label" class="input-group-text">€</span>
+            <input
+              class="form-control"
+              type="number"
+              id="price"
+              step="0.01"
+              name="experiences[price]"
+              placeholder="0" />
+            <span id="price-label" class="input-group-text">a persona</span>
+          </div>
+        </div>
+        <div class="col-lg-4 d-flex">
+          <span class="form-label ps-2 pe-3" style="padding-top: 0.75rem"
+            >Voto</span
+          >
+          <fieldset class="starability-basic pt-2">
+            <input
+              type="radio"
+              id="no-rate"
+              class="input-no-rate"
+              name="experiences[rate]"
+              value="0"
+              checked
+              aria-label="No rating." />
+            <input
+              type="radio"
+              id="second-rate1"
+              name="experiences[rate]"
+              value="1" />
+            <label for="second-rate1" title="Terrible">1 star</label>
+            <input
+              type="radio"
+              id="second-rate2"
+              name="experiences[rate]"
+              value="2" />
+            <label for="second-rate2" title="Not good">2 stars</label>
+            <input
+              type="radio"
+              id="second-rate3"
+              name="experiences[rate]"
+              value="3" />
+            <label for="second-rate3" title="Average">3 stars</label>
+            <input
+              type="radio"
+              id="second-rate4"
+              name="experiences[rate]"
+              value="4" />
+            <label for="second-rate4" title="Very good">4 stars</label>
+            <input
+              type="radio"
+              id="second-rate5"
+              name="experiences[rate]"
+              value="5" />
+            <label for="second-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+        </div>
+        <div class="col-lg-3 mb-3 align-items-center mt-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="revisit"
+            name="experiences[revisit]"
+            value="true" />
+          <label class="form-check-label" for="revisit">
+            Desidero ritornare</label
+          >
+        </div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Aggiungi</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const locationInput = document.getElementById("location");
+  const dropdownLocation = document.getElementById("dropdown-location");
+  const spinnerLocation = document.getElementById("spinner-location");
+  const titleInput = document.getElementById("title");
+  const dropdownTitle = document.getElementById("dropdown-title");
+  const spinnerTitle = document.getElementById("spinner-title");
+  const coordinatesHidden = document.getElementById("coordinates-hidden");
+
+  let map;
+  let currentMarker;
+  let delayTitle;
+  let delayLocation;
+  let latitude;
+  let longitude;
+  let newLat;
+  let newLon;
+
+  // Inizializzazione mappa
+  document.addEventListener("DOMContentLoaded", function () {
+    map = L.map("map").setView([41.8961, 12.4906], 5);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors",
+    }).addTo(map);
+  });
+
+  locationInput.addEventListener("input", () => {
+    clearTimeout(delayLocation);
+    delayLocation = setTimeout(() => {
+      if (locationInput.value.length > 3) {
+        dropdownLocation.classList.add("show");
+        spinnerLocation.style.display = "block";
+        fetch(
+          `https://nominatim.openstreetmap.org/search?q=${locationInput.value}&format=json&limit=10&addressdetails=1`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            dropdownLocation.innerHTML = "";
+            data.forEach((el) => {
+              const adrs = el.address;
+              const displayName = el.display_name;
+              const isCity = adrs.city || adrs.town || adrs.village;
+              const isAddress = adrs.road;
+              if (isCity) {
+                const newLocation = document.createElement("li");
+                newLocation.classList.add("dropdown-item");
+                newLocation.innerHTML = displayName;
+                newLocation.role = "button";
+                newLocation.tabIndex = "0";
+                newLocation.addEventListener("click", () => {
+                  locationInput.value = newLocation.innerHTML;
+                  dropdownLocation.innerHTML = "";
+                  dropdownLocation.classList.remove("show");
+                  latitude = parseFloat(el.lat);
+                  longitude = parseFloat(el.lon);
+                  map.setView([latitude, longitude], isAddress ? 18 : 13);
+                  if (currentMarker) {
+                    map.removeLayer(currentMarker);
+                  }
+                  currentMarker = L.marker([latitude, longitude]).addTo(map);
+                  coordinatesHidden.value = JSON.stringify({
+                    lat: latitude,
+                    lon: longitude,
+                  });
+                });
+                dropdownLocation.appendChild(newLocation);
+              }
+            });
+            spinnerLocation.style.display = "none";
+          })
+          .catch(function (err) {
+            console.log("Errore", err);
+            spinnerLocation.style.display = "none";
+          });
+      } else {
+        dropdownLocation.classList.remove("show");
+        dropdownLocation.innerHTML = "";
+        spinnerLocation.style.display = "none";
+      }
+    }, 300);
+  });
+  // --------------------------------------- GPS
+
+  const gpsLoading = document.getElementById("gps-loading");
+  const geoLocation = () => {
+    gpsLoading.style.display = "block";
+    navigator.geolocation.getCurrentPosition((pos) => {
+      latitude = pos.coords.latitude;
+      longitude = pos.coords.longitude;
+      gpsLoading.style.display = "none";
+      map.setView([latitude, longitude], 18);
+      if (currentMarker) {
+        map.removeLayer(currentMarker);
+      }
+      currentMarker = L.marker([latitude, longitude]).addTo(map);
+      coordinatesHidden.value = JSON.stringify({ latitude, longitude });
+      fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=16&addressdetails=1`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          locationInput.value = data.display_name;
+          titleInput.value = "";
+        });
+    });
+  };
+
+  // -----------------------------------------------------------------------
+
+  titleInput.addEventListener("input", () => {
+    clearTimeout(delayTitle);
+    delayTitle = setTimeout(() => {
+      if (titleInput.value.length > 3) {
+        const cleaned = titleInput.value
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .trim();
+        const parts = cleaned.split(/\s+/);
+        const regex = parts.join(".*");
+        const pOne = latitude - 0.05;
+        const pTwo = longitude - 0.06;
+        const pThree = latitude + 0.05;
+        const pFour = longitude + 0.06;
+        const geoBox = `${pOne},${pTwo},${pThree},${pFour}`;
+        const bodyQuery = `[out:json][timeout:25];
+  (
+    node(${geoBox})["name"~"${regex}", i];
+    way(${geoBox})["name"~"${regex}", i];
+    relation(${geoBox})["name"~"${regex}", i];
+  );
+  out body;
+
+
+  `;
+
+        dropdownTitle.classList.add("show");
+        spinnerTitle.style.display = "block";
+        fetch("https://overpass-api.de/api/interpreter", {
+          method: "POST",
+          body: new URLSearchParams({ data: bodyQuery }),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            dropdownTitle.innerHTML = "";
+            const backupElements = [];
+            const uniqueElements = data.elements
+              .filter((el) => {
+                const name = el.tags?.name;
+                const lat = el.lat;
+                const lon = el.lon;
+                if (!name || !lat || !lon) return false;
+                if (backupElements.includes(name)) return false;
+                backupElements.push(name);
+                return true;
+              })
+              .forEach((el) => {
+                const tags = el.tags;
+                const displayOverpass = [
+                  tags["name"] || null,
+                  tags["addr:street"] || null,
+                  tags["addr:housenumber"] || null,
+                  tags["addr:city"] || null,
+                ]
+                  .filter(Boolean)
+                  .join(", ");
+                const newName = document.createElement("li");
+                newName.classList.add("dropdown-item");
+                newName.innerHTML = displayOverpass;
+                newName.role = "button";
+                newName.tabIndex = "0";
+                newName.addEventListener("click", () => {
+                  titleInput.value = el.tags.name;
+                  dropdownTitle.innerHTML = "";
+                  dropdownTitle.classList.remove("show");
+                  newLat = parseFloat(el.lat);
+                  newLon = parseFloat(el.lon);
+                  const newAddr = [
+                    tags["addr:street"] || null,
+                    tags["addr:housenumber"] || null,
+                    tags["addr:city"] || null,
+                  ]
+                    .filter(Boolean)
+                    .join(", ");
+                  if (newAddr) {
+                    locationInput.value = newAddr;
+                  } else {
+                    fetch(
+                      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${newLat}&lon=${newLon}&zoom=16&addressdetails=1`
+                    )
+                      .then((res) => res.json())
+                      .then((data) => {
+                        locationInput.value = [
+                          data.address.road,
+                          data.address.city || data.address.county,
+                          data.address.state,
+                          data.address.country,
+                        ]
+                          .filter(Boolean)
+                          .join(", ");
+                      });
+                  }
+                  map.setView([newLat, newLon], 18);
+                  if (currentMarker) {
+                    map.removeLayer(currentMarker);
+                  }
+                  currentMarker = L.marker([newLat, newLon]).addTo(map);
+                  coordinatesHidden.value = JSON.stringify({
+                    lat: newLat,
+                    lon: newLon,
+                  });
+                });
+                dropdownTitle.appendChild(newName);
+              });
+
+            spinnerTitle.style.display = "none";
+          })
+          .catch((error) => {
+            console.error("Errore nella richiesta Overpass:", error);
+            spinnerTitle.style.display = "none";
+          });
+      }
+    }, 300);
+  });
+</script>

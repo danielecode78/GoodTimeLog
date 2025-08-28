@@ -1,0 +1,156 @@
+<% layout("/layouts/boilerplate") %>
+<link rel="stylesheet" href="/css/stars.css" />
+
+<div class="row">
+  <div class="col-12 col-md-auto">
+    <h1 class="mb-2">Il mio diario di viaggio</h1>
+  </div>
+  <div class="col-12 col-md-auto d-flex align-items-center">
+    <button
+      type="button"
+      class="btn btn-map w-100"
+      data-bs-toggle="modal"
+      data-bs-target="#schedaZoom">
+      Mappa <i class="bi bi-map"></i>
+    </button>
+  </div>
+</div>
+<p class="lead"><i>Raccogli le tue avventure e rivivile quando vuoi</i></p>
+
+<%- include("../partials/modalMap", {diary: true}) %>
+
+<div class="mb-4">
+  <div class="row gy-3 d-flex justify-content-between">
+    <div class="col-12 col-xl-auto">
+      <div class="d-flex flex-wrap gap-2">
+        <a href="/experiences/myDiary" class="btn btn-secondary">Tutti</a>
+        <a href="/experiences/myDiary?category=Cibo" class="btn btn-danger"
+          >Cibo</a
+        >
+        <a href="/experiences/myDiary?category=Dormire" class="btn btn-primary"
+          >Dormire</a
+        >
+        <a href="/experiences/myDiary?category=Natura" class="btn btn-success"
+          >Natura</a
+        >
+        <a href="/experiences/myDiary?category=Museo" class="btn bg-museum"
+          >Museo</a
+        >
+        <a href="/experiences/myDiary?category=Città" class="btn btn-warning"
+          >Città</a
+        >
+        <a href="/experiences/myDiary?category=Per bambini" class="btn bg-pink"
+          >Per bambini</a
+        >
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-auto">
+      <form
+        class="d-flex"
+        role="search"
+        action="/experiences/myDiary"
+        method="GET">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          name="search" />
+        <button class="btn btn-secondary" type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="col-12 col-xl-auto">
+      <a href="/experiences/add" class="btn btn-add w-100">
+        <i class="bi bi-plus"></i> Aggiungi esperienza
+      </a>
+    </div>
+  </div>
+</div>
+
+<% for (let exp of exps) { %>
+<div class="card mb-4 shadow-sm">
+  <div class="d-flex flex-wrap justify-content-between">
+    <a
+      href="/experiences/<%= exp._id %>"
+      class="btn btn-primary btn-sm mb-2 mb-md-0 text-white">
+      <i class="bi bi-search"> Dettagli</i>
+    </a>
+
+    <% let categoryColor = "secondary"; if (exp.type === "Cibo") categoryColor =
+    "danger"; else if (exp.type === "Dormire") categoryColor = "primary"; else
+    if (exp.type === "Natura") categoryColor = "success"; else if (exp.type ===
+    "Museo") categoryColor = "museum"; else if (exp.type === "Città")
+    categoryColor = "warning"; else if (exp.type === "Per bambini")
+    categoryColor = "pink"; else if (exp.type === "Non specificato")
+    categoryColor = "secondary"; %>
+
+    <span
+      class="badge bg-<%= categoryColor %> text-white fs-6"
+      style="height: 31px">
+      <%= exp.type %>
+    </span>
+  </div>
+  <div class="d-flex flex-row align-items-center">
+    <h6 class="mb-0 mx-2 text-muted"><%= dateit(exp.date) %></h6>
+    <span
+      class="starability-result"
+      data-rating="<%= exp.rate %>"
+      style="transform: scale(0.6); transform-origin: left center">
+    </span>
+  </div>
+  <div>
+    <h5 class="mb-0 ms-2 fw-semibold"><%= exp.description %></h5>
+  </div>
+
+  <div class="row g-0">
+    <div
+      class="col-4 col-md-2 d-flex align-items-center justify-content-center p-2">
+      <div
+        class="rounded-circle overflow-hidden"
+        style="width: 80px; height: 80px">
+        <img
+          src="<%= exp.images.length > 0 ? exp.images[0].url : '/images/bosco.png' %>"
+          alt="immagine esperienza"
+          style="width: 100%; height: 100%; object-fit: cover" />
+      </div>
+    </div>
+
+    <div class="col-8 col-md-10">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-md-row align-items-md-center">
+          <h6>
+            <i>
+              presso
+              <span class="text-warning-emphasis"><%= exp.title %></span>
+            </i>
+          </h6>
+        </div>
+        <div class="d-flex flex-column flex-md-row align-items-md-center">
+          <h6 class="card-text pt-2">Località:</h6>
+          <span class="ms-md-1"><%= exp.location %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+<nav class="d-flex justify-content-center">
+  <% if (totPages > 1) { %>
+  <ul class="pagination">
+    <li class="page-item <%= currentPage <= 1 ? 'disabled' : '' %>">
+      <a href="?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+    </li>
+
+    <% for (let x = 1; x <= totPages; x++) { %>
+    <li class="page-item <%= x === Number(currentPage) ? 'active' : '' %>">
+      <a class="page-link" href="?page=<%= x %>"><%= x %></a>
+    </li>
+    <% } %>
+
+    <li class="page-item <%= currentPage >= totPages ? 'disabled' : '' %>">
+      <a href="?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+    </li>
+  </ul>
+  <% } %>
+</nav>

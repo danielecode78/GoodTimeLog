@@ -1,0 +1,63 @@
+<% layout("/layouts/boilerplate") %>
+<div class="card col-6 mx-auto mt-5">
+  <div class="card-header">
+    <h1 class="text-center text-primary">Registrazione</h1>
+  </div>
+  <div class="card-body">
+    <form action="/register" method="POST" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label class="form-label" for="username">Nome utente</label>
+        <input
+          class="form-control"
+          type="text"
+          id="username"
+          name="user[username]"
+          required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input
+          class="form-control"
+          type="password"
+          id="password"
+          minlength="8"
+          maxlength="64"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$"
+          name="user[password]"
+          required />
+        <div id="passwordFeedback" class="invalid-feedback"></div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="confirmPassword" class="form-label"
+          >Conferma Password</label
+        >
+        <input
+          type="password"
+          class="form-control"
+          id="confirmPassword"
+          required />
+        <div id="confirmPasswordFeedback" class="form-text text-danger"></div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input
+          class="form-control"
+          type="email"
+          id="email"
+          name="user[email]"
+          required />
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="mb-3">
+          <button class="btn btn-success">Registrati</button>
+          <button
+            class="btn btn-secondary"
+            onclick="window.location.href='/experiences'">
+            Indietro
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="/scripts/validRegister.js"></script>

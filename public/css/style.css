@@ -1,0 +1,65 @@
+.hover-opacity:hover {
+  opacity: 0.6;
+}
+.starability-basic label {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.starability-basic label:focus,
+.starability-basic label:active,
+.starability-basic label:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+#map {
+  height: 200px;
+}
+
+.bg-museum {
+  background-color: #6f1d1b;
+  color: white;
+}
+
+.bg-pink {
+  background-color: #e83e8c;
+  color: white;
+}
+
+.bg-museum:hover {
+  background-color: #5f1817;
+  border-color: #561615;
+  color: #fff;
+}
+
+.bg-pink:hover {
+  background-color: #cc377d;
+  border-color: #b8306e;
+  color: #fff;
+}
+.bg-museum-active {
+  background-color: #5f1817;
+  border-color: #561615;
+  color: #fff;
+}
+
+.bg-pink-active {
+  background-color: #cc377d;
+  border-color: #b8306e;
+  color: #fff;
+}
+
+.btn-map {
+  --bs-btn-bg: #99794e;
+  --bs-btn-color: white;
+  --bs-btn-hover-bg: #8a6e47;
+  --bs-btn-hover-color: white;
+  --bs-btn-border-radius: 0.5rem;
+}
+
+.btn-add {
+  --bs-btn-bg: #7a1fbf;
+  --bs-btn-color: white;
+  --bs-btn-hover-bg: #5d1492;
+  --bs-btn-hover-color: white;
+  --bs-btn-border-radius: 0.5rem;
+}

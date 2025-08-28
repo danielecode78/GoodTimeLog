@@ -1,0 +1,58 @@
+<footer class="footer bg-dark mt-auto">
+  <div class="position-relative">
+    <button
+      id="close-button"
+      type="button"
+      onclick="closeDisclaimer()"
+      class="btn border-0 bg-transparent p-0 position-absolute top-0 end-0">
+      <i
+        class="bi bi-x text-white fs-4"
+        style="line-height: 1; vertical-align: middle"></i>
+    </button>
+  </div>
+  <div class="px-3">
+    <p class="text-light m-0">
+      &copy; 2025 GoodTimeLog – Daniele Ficcaroli. Tutti i diritti riservati.
+    </p>
+
+    <div>
+      <p
+        id="disclaimer"
+        class="text-light m-0"
+        style="font-size: 0.8rem; text-align: justify">
+        Questo sito è un portfolio personale sviluppato esclusivamente a scopo
+        dimostrativo e non costituisce né una piattaforma commerciale né un
+        servizio pubblico. La registrazione degli utenti è disattivata e
+        l’accesso e l’utilizzo sono riservati unicamente a persone autorizzate
+        dal proprietario. Qualsiasi contenuto generato dagli utenti deve
+        intendersi come parte di un ambiente di test o dimostrazione. Le
+        informazioni presenti nel sito, comprese descrizioni di luoghi,
+        esperienze di viaggio, valutazioni e commenti, hanno carattere puramente
+        illustrativo e non possiedono alcun valore reale, commerciale o
+        informativo. Il proprietario del sito declina ogni responsabilità per
+        l’uso improprio del sito da parte di terzi, per i contenuti inseriti da
+        utenti autorizzati e per eventuali danni, diretti o indiretti, derivanti
+        dall’accesso, consultazione o interpretazione delle informazioni
+        pubblicate.
+      </p>
+    </div>
+  </div>
+</footer>
+<script>
+  const disclaimer = document.getElementById("disclaimer");
+  const closeButton = document.getElementById("close-button");
+
+  const closeDisclaimer = () => {
+    disclaimer.style.display = "none";
+    closeButton.style.display = "none";
+    sessionStorage.setItem("disclaimerClosed", "true");
+  };
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const isClosed = sessionStorage.getItem("disclaimerClosed");
+    if (isClosed === "true") {
+      disclaimer.style.display = "none";
+      closeButton.style.display = "none";
+    }
+  });
+</script>
