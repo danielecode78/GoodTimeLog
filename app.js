@@ -14,6 +14,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
+const connectMongo = require("connect-mongo");
 
 const expRoutes = require("./routes/expRoutes");
 const comRoutes = require("./routes/comRoutes");
@@ -52,9 +53,13 @@ const sessionConfig = {
   secret: "cipollina",
   resave: false,
   saveUninitialized: true,
+  store: connectMongo.create({
+    mongoUrl: process.env.MONGO_URI,
+    ttl: 1000 * 60 * 60 * 24 * 7,
+  }),
   cookie: {
     httpOnly: true,
-    secure: false, // Da rivedere in fase di pubblicazione
+    secure: false, // Da rivedere in fase di pubblicazione reale
     sameSite: "strict",
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
