@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-12 col-md-auto">
-    <h1 class="mb-2">Le esperienze degli altri</h1>
+    <h1 class="mb-2 centered-text">Le esperienze degli altri</h1>
   </div>
   <div class="col-12 col-md-auto d-flex align-items-center">
     <button
@@ -15,7 +15,7 @@
     </button>
   </div>
 </div>
-<p class="lead">
+<p class="lead reduce-lead centered-text">
   <i>Un mondo di avventure ti aspetta. Quale sarà la prossima?</i>
 </p>
 <%- include("../partials/modalMap", {diary: false}) %>
@@ -23,18 +23,32 @@
 <div class="mb-4">
   <div class="row gy-3 d-flex justify-content-between">
     <div class="col-12 col-xl-7">
-      <div class="d-flex flex-wrap gap-2">
-        <a href="/experiences/" class="btn btn-secondary">Tutti</a>
-        <a href="/experiences/?category=Cibo" class="btn btn-danger">Cibo</a>
-        <a href="/experiences/?category=Dormire" class="btn btn-primary"
+      <div class="d-flex flex-wrap gap-2 justify-content-between">
+        <a href="/experiences/" class="btn btn-secondary flex-grow-1">Tutti</a>
+        <a href="/experiences/?category=Cibo" class="btn btn-danger flex-grow-1"
+          >Cibo</a
+        >
+        <a
+          href="/experiences/?category=Dormire"
+          class="btn btn-primary flex-grow-1"
           >Dormire</a
         >
-        <a href="/experiences/?category=Natura" class="btn btn-success"
+        <a
+          href="/experiences/?category=Natura"
+          class="btn btn-success flex-grow-1"
           >Natura</a
         >
-        <a href="/experiences/?category=Museo" class="btn bg-museum">Museo</a>
-        <a href="/experiences/?category=Città" class="btn btn-warning">Città</a>
-        <a href="/experiences/?category=Per bambini" class="btn bg-pink"
+        <a href="/experiences/?category=Museo" class="btn bg-museum flex-grow-1"
+          >Museo</a
+        >
+        <a
+          href="/experiences/?category=Città"
+          class="btn btn-warning flex-grow-1"
+          >Città</a
+        >
+        <a
+          href="/experiences/?category=Per bambini"
+          class="btn bg-pink flex-grow-1"
           >Per bambini</a
         >
       </div>

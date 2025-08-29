@@ -5,7 +5,7 @@
   <div class="card-header">
     <h1 class="text-center text-primary">Aggiungi Esperienza</h1>
   </div>
-  <div class="card-body col-8 mx-auto">
+  <div class="card-body col-12 col-xl-8 mx-auto">
     <form
       action="/experiences"
       method="POST"
@@ -130,9 +130,7 @@
           </div>
         </div>
         <div class="col-lg-4 d-flex">
-          <span class="form-label ps-2 pe-3" style="padding-top: 0.75rem"
-            >Voto</span
-          >
+          <span class="form-label pe-3" style="padding-top: 0.75rem">Voto</span>
           <fieldset class="starability-basic pt-2">
             <input
               type="radio"
@@ -175,19 +173,19 @@
           </fieldset>
         </div>
         <div class="col-lg-3 mb-3 align-items-center mt-2">
+          <label class="form-check-label me-1" for="revisit">
+            Desidero ritornare</label
+          >
           <input
             class="form-check-input"
             type="checkbox"
             id="revisit"
             name="experiences[revisit]"
             value="true" />
-          <label class="form-check-label" for="revisit">
-            Desidero ritornare</label
-          >
         </div>
       </div>
       <div class="mb-3">
-        <button class="btn btn-success">Aggiungi</button>
+        <button class="btn btn-success w-100">Aggiungi</button>
       </div>
     </form>
   </div>

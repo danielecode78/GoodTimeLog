@@ -1,16 +1,19 @@
 .hover-opacity:hover {
   opacity: 0.6;
 }
+
 .starability-basic label {
   outline: none !important;
   box-shadow: none !important;
 }
+
 .starability-basic label:focus,
 .starability-basic label:active,
 .starability-basic label:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
+
 #map {
   height: 200px;
 }
@@ -36,6 +39,7 @@
   border-color: #b8306e;
   color: #fff;
 }
+
 .bg-museum-active {
   background-color: #5f1817;
   border-color: #561615;
@@ -62,4 +66,44 @@
   --bs-btn-hover-bg: #5d1492;
   --bs-btn-hover-color: white;
   --bs-btn-border-radius: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .reduce-lead {
+    font-size: 1rem;
+  }
+  .centered-text {
+    text-align: center;
+  }
+}
+
+.fixed-col {
+  width: 350px;
+  height: 500px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767.98px) {
+  .btn-100 {
+    width: 100% !important;
+  }
+  .reduce-title {
+    font-size: 1.4rem;
+  }
+  .fixed-col {
+    width: 100% !important;
+    height: auto;
+  }
+}
+
+@media (min-width: 767.98px) {
+  .btn-100 {
+    width: 150px;
+  }
+}
+
+@media (min-width: 970px) {
+  .btn-fixed {
+    max-width: 150px;
+  }
 }

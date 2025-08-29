@@ -4,7 +4,7 @@
   <div class="card-header">
     <h1 class="text-center text-primary">Modifica Esperienza</h1>
   </div>
-  <div class="card-body col-8 mx-auto">
+  <div class="card-body col-12 col-xl-8 mx-auto">
     <form id="edit-form" action="/experiences/<%= exp._id %>?_method=PUT" method="POST" class="needs-validation"
     novalidate enctype="multipart/form-data">
           <div class="dropdown mb-3">
@@ -168,7 +168,7 @@
           </div>
         </div>
         <div class="col-lg-4 d-flex">
-          <span class="form-label ps-2 pe-3" style="padding-top: 0.75rem"
+          <span class="form-label pe-3" style="padding-top: 0.75rem"
             >Voto</span>
           <fieldset class="starability-basic pt-2">
             <input
@@ -218,14 +218,14 @@
         </div>
 
         <div class="col-lg-3 mb-3 align-items-center mt-2">
+          <label class="form-check-label me-1" for="revisit"> Desidero ritornare</label>
           <input class="form-check-input" type="checkbox" id="revisit"
           name="experiences[revisit]" value="true" <%= exp.revisit ? "checked" :
           "" %>/>
-          <label class="form-check-label" for="revisit"> Desidero ritornare</label>
         </div>
       </div>
       <div class="mb-3">
-        <button id="edit-button" class="btn btn-success" >Modifica</button>
+        <button id="edit-button" class="btn btn-success w-100" >Modifica</button>
       </div>
     </form>
   </div>
