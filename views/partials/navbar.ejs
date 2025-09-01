@@ -1,45 +1,46 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark" role="navigation" aria-label="Navigazione principale">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"
-      ><img
-        src="/images/logowhite.jpg"
-        alt="Logo"
-        width="80px"
-        height="80px"
-        class="rounded"
-    /></a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
+    <a class="navbar-brand" href="/"><img src="/images/logowhite.jpg" alt="Logo GoodTimeLog" width="50px" height="50px" class="rounded" /></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="d-flex justify-content-between w-100">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/experiences">Esplora</a>
-          <a class="nav-link" href="/experiences/myDiary">Il mio diario</a>
+        <div>
+          <ul class="navbar-nav">
+            <li>
+              <a class="nav-link" href="/" <% if (currentPath === "/") { %> aria-current="page" <% } %>>Home</a>
+            </li>
+            <li>
+              <a class="nav-link" href="/experiences" <% if (currentPath === "/experiences") { %> aria-current="page" <% } %>>
+                Esplora
+              </a>
+            </li>
+            <li>
+              <a class="nav-link" href="/experiences/myDiary" <% if (currentPath === "/experiences/myDiary") { %> aria-current="page" <% } %>>Il mio diario</a>
+            </li>
+          </ul>
         </div>
-        <div class="navbar-nav">
-          <% if (!currentUser) { %>
-          <a class="nav-link link-light link-opacity-50-hover" href="/register"
-            >Registrati</a
-          >
-          <a class="nav-link link-light link-opacity-50-hover" href="/login"
-            >Login</a
-          >
-          <% } else { %>
-          <span class="nav-link text-warning"
-            >Utente: <%= currentUser.username %></span
-          >
-          <a class="nav-link link-light link-opacity-50-hover" href="/logout"
-            >Logout</a
-          >
-          <% } %>
+        <div>
+          <ul class="navbar-nav">
+            <% if (!currentUser) { %>
+            <li>
+              <a class="nav-link link-light link-opacity-50-hover" href="/register" <% if (currentPath === "/register") { %> aria-current="page" <% } %>>Registrati</a>
+            </li>
+            <li>
+              <a class="nav-link link-light link-opacity-50-hover" href="/login" <% if (currentPath === "/login") { %> aria-current="page" <% } %>>Login</a>
+            </li>
+            <% } else { %>
+            <li>
+              <span class="nav-link text-warning">
+                Utente: <%= currentUser.username %>
+              </span>
+            </li>
+            <li>
+              <a class="nav-link link-light link-opacity-50-hover" href="/logout">Logout</a>
+            </li>
+            <% } %>
+          </ul>
         </div>
       </div>
     </div>

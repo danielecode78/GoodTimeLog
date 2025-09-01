@@ -1,30 +1,22 @@
-<div
-  class="modal fade"
-  id="schedaZoom"
-  tabindex="-1"
-  aria-labelledby="titoloScheda"
-  aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
+<div class="modal fade" id="schedaZoom" tabindex="-1" aria-labelledby="titoloScheda" aria-describedby="modalDescrizione" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="titoloScheda">Mappa esperienze</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Chiudi"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+      </div>
+      <div id="modalDescrizione" class="visually-hidden">
+        Seleziona una categoria per filtrare le esperienze sulla mappa. La mappa mostra i risultati in base alla selezione.
       </div>
       <div style="margin-top: 16px; margin-left: 16px">
         <div class="d-flex flex-wrap gap-2">
-          <a onclick='updateMap("")' class="btn btn-secondary">Tutti</a>
-          <a onclick='updateMap("Cibo")' class="btn btn-danger">Cibo</a>
-          <a onclick='updateMap("Dormire")' class="btn btn-primary">Dormire</a>
-          <a onclick='updateMap("Natura")' class="btn btn-success">Natura</a>
-          <a onclick='updateMap("Museo")' class="btn bg-museum">Museo</a>
-          <a onclick='updateMap("Città")' class="btn btn-warning">Città</a>
-          <a onclick='updateMap("Per bambini")' class="btn bg-pink"
-            >Per bambini</a
-          >
+          <button onclick='updateMap("")' class="btn btn-secondary" aria-label="Mostra tutte le esperienze">Tutti</button>
+          <button onclick='updateMap("Cibo")' class="btn btn-danger" aria-label="Filtra per Cibo">Cibo</button>
+          <button onclick='updateMap("Dormire")' class="btn btn-primary" aria-label="Filtra per Dormire">Dormire</button>
+          <button onclick='updateMap("Natura")' class="btn btn-success" aria-label="Filtra per Natura">Natura</button>
+          <button onclick='updateMap("Museo")' class="btn bg-museum" aria-label="Filtra per Museo">Museo</button>
+          <button onclick='updateMap("Città")' class="btn btn-warning" aria-label="Filtra per Esperienze in Città">Città</button>
+          <button onclick='updateMap("Per bambini")' class="btn bg-pink" aria-label="Filtra per Esperienze per bambini">Per bambini</button>
         </div>
       </div>
       <div class="modal-body">
@@ -42,15 +34,24 @@
   let map;
   let markerGroup;
   const modal = document.getElementById("schedaZoom");
+  const dateit = (element) => {
+    let finaldate = "Data non inserita";
+    if (element) {
+      const arrdate = element.split("-");
+      finaldate = `${arrdate[2]}-${arrdate[1]}-${arrdate[0]}`;
+    }
+    return finaldate;
+  };
+
   const updateMap = (category) => {
     if (markerGroup) {
-    markerGroup.clearLayers();
+      markerGroup.clearLayers();
     }
     const bounds = L.latLngBounds([]);
     const diary = <%- JSON.stringify(diary) %>;
     fetch(
-      `/experiences/showMap?diary=${JSON.stringify(diary)}&category=${category}`
-    )
+        `/experiences/showMap?diary=${JSON.stringify(diary)}&category=${category}`
+      )
       .then((res) => res.json())
       .then((data) => {
         markerGroup = L.layerGroup().addTo(map);
@@ -59,47 +60,46 @@
           const coords = el.coordinates;
           const lat = coords.lat;
           const lon = coords.lon;
-
           if (typeof lat === "number" && typeof lon === "number") {
             const marker = L.marker([lat, lon]);
             marker.bindPopup(`
-              <div class="card">
-          <div class="card-header">
-            <a href="/experiences/${el._id}">
-      <strong>${el.date} - ${el.description}</strong>
-            </a>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i>presso</i> ${el.title}</li>
-            <li class="list-group-item">
-                <span class="d-inline">${el.location}</span>
-            </li>
-            <li class="list-group-item">
-                        <a
-                        href="https://www.google.com/maps/search/?api=1&query=${el.title}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >
-                        <i class="fas fa-map-marker-alt"></i> Vedi su Google Maps
-                        </a>
-            </li>
-          </ul>
-        </div>
-          `);
+  <div class="card text-center" role="region" aria-label="Scheda esperienza">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <h6><time datetime="${el.date}">${dateit(el.date)}</time> — <strong>${el.description}</strong></h6>
+      </li>
+      <li class="list-group-item">presso <span aria-label="Titolo esperienza">${el.title}</span></li>
+      <li class="list-group-item">
+        <span class="d-inline">${el.location}</span>
+        <a href="https://www.google.com/maps/search/?api=1&query=${el.title}"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Apri ${el.title} su Google Maps">
+          <i class="fas fa-map-marker-alt" aria-hidden="true"></i> Vedi su Google Maps
+        </a>
+      </li>
+      <li class="list-group-item">
+      <a href="/experiences/${el._id}" class="btn btn-primary btn-sm mb-2 mb-md-0 text-white w-100" aria-label="Mostra dettagli esperienza">
+      <i class="bi bi-search"></i>
+    </a>
+    </li>
+    </ul>
+  </div>
+`);
             marker.addTo(markerGroup);
             bounds.extend(marker.getLatLng());
           }
         });
         if (data.length < 1) {
-            map.setView([41.8961, 12.4906], 5);
+          map.setView([41.8961, 12.4906], 5);
         } else {
-            map.fitBounds(bounds);
+          map.fitBounds(bounds);
         }
       })
       .catch((err) => console.error("Errore nel fetch:", err));
   };
 
-  modal.addEventListener("shown.bs.modal", function () {
+  modal.addEventListener("shown.bs.modal", function() {
     if (!map) {
       map = L.map("map").setView([41.8961, 12.4906], 5);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

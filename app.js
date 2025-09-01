@@ -20,6 +20,8 @@ const expRoutes = require("./routes/expRoutes");
 const comRoutes = require("./routes/comRoutes");
 const userRoutes = require("./routes/usersRoutes");
 
+const setCurrentPage = require("./middlewares/setCurrentPage");
+
 // mongoose.connect("mongodb://localhost:27017/goodtimelog");
 
 mongoose
@@ -41,6 +43,7 @@ app.engine("ejs", ejsMate);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(setCurrentPage);
 
 app.use(methodOverride("_method"));
 app.use(

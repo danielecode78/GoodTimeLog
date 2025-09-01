@@ -1,28 +1,28 @@
 <% layout("/layouts/boilerplate") %>
-<div class="card m-auto">
+<div class="card m-auto  mb-5">
   <div class="row">
     <div class="col-12 col-xl-6">
-      <img class="card-img" src="/images/family.jpg" alt="" />
+      <img class="card-img" src="/images/family.jpg" alt="Famiglia felice di vivere nuove esperienze assieme" />
     </div>
     <div class="col-12 col-xl-6 d-flex align-items-center">
-      <div class="card-body">
-        <h5>L'idea</h5>
-        <p style="text-align: justify">
+      <div class="card-body" style="text-align: justify">
+        <h4>L'idea</h4>
+        <p>
           Il sito nasce con l’obiettivo di offrire agli utenti uno spazio
           personale dove registrare e condividere esperienze vissute, ovvero
           ristoranti, alloggi, gite, musei, attività in città, momenti nella
-          natura o esperienze dedicate ai bambini. <br />
-          <br />
+          natura o esperienze dedicate ai bambini. </p>
+        <p>
           Ogni utente può creare un proprio archivio, caricare foto, annotare
           impressioni, valutare ciò che ha funzionato e ciò che non ha
-          soddisfatto le aspettative. <br />
-          <br />
+          soddisfatto le aspettative.</p>
+        <p>
           Questa raccolta non è solo un diario digitale: è uno strumento utile
           per orientare le scelte future, basato su esperienze autentiche.
           Inoltre, tutte le esperienze sono consultabili da altri utenti, che
           possono effettuare ricerche per località e trovare ispirazione,
-          consigli pratici e indicazioni su cosa fare o evitare. <br />
-          <br />
+          consigli pratici e indicazioni su cosa fare o evitare.</p>
+        <p>
           Il progetto valorizza la memoria personale e la condivisione
           collettiva, trasformando ogni racconto in una risorsa per la comunità.
           Un ecosistema dinamico dove il vissuto diventa guida.
@@ -30,56 +30,21 @@
       </div>
     </div>
   </div>
-  <div class="card-body">
+  <div class="card-body" style="text-align: justify">
     <h5>Caratteristiche generali e possibili implementazioni</h5>
-    <p style="text-align: justify">
-      Questo sito è stato sviluppato come progetto portfolio, con l’obiettivo di
-      mostrare competenze tecniche e stilistiche. l progetto è stato sviluppato
-      utilizzando Express, MongoDB e una selezione di pacchetti npm per
-      ottimizzare la struttura backend. Il front-end è stato progettato secondo
-      una filosofia di pulizia visiva e minimalismo funzionale, con l’obiettivo
-      di garantire un’interfaccia intuitiva e non invasiva, evitando soluzioni
-      eccessivamente complesse che possano compromettere la semplicità d’uso.
-      Per questo motivo ho scelto di utilizzare principalmente Bootstrap,
-      valorizzando la coerenza visiva e la rapidità di sviluppo. L’attenzione è
-      stata rivolta all’esperienza utente, con l'intento di trasmettere
-      semplicità, familiarità e immediatezza. Ho preferito integrare API open
-      anziché ricorrere a badge preconfezionati, per mantenere maggiore
-      controllo sul design e garantire una maggiore personalizzazione visiva.
-      <br />
-      <br />
-      Il sito è responsivo e si adatta a qualsiasi dispositivo. Chiaramente
-      essendo un progetto portfolio alcuni dettagli estetici potrebbero essere
-      ottimizzati per schermi medi e piccoli, poiché il progetto è stato
-      concepito principalmente per desktop. Tuttavia, la struttura si mantiene
-      funzionale anche su mobile. Non è ancora presente il supporto per gli
-      screen readers, ma è una funzionalità che verrebbe sicuramente
-      implementata in caso di evoluzione del progetto. <br />
-      <br />
-      Tra le estensioni future, riterrei fondamentale introdurre una sezione
-      profilo utente, la possibilità di interagire tra gli utenti, un sistema di
-      follow che ritengo utile per seguire gli utenti preferiti o che diventano
-      influencer in quanto si dimostrano capaci di consigliare esperienze valide
-      e segnalare quelle da evitare (potrebbe essere implementato anche un
-      rating dell'utente stesso basato sulla media dell'utilità dei propri
-      contenuti, ma potrebbe causare stress all'utente o creare delle guerre e
-      non è una cosa che idealmente è compresa nel concept originario),
-      meccanismi di moderazione / segnalazione di contenuti inappropriati.
-      <br />
-      <br />
-      Per quanto riguarda la gestione delle immagini, ho scelto un approccio
-      volutamente più rigido rispetto agli standard attuali (come quelli di
-      Google o delle app mobili), separando le foto già presenti nel database da
-      quelle appena caricate. Questo per ridurre il rischio di cancellazioni
-      accidentali e per rimanere coerente con il concetto di ordine e pulizia.
-      Volendo tale visualizzazione potrebbe essere resa più omogenea, ma il
-      progetto nasce con l’intento di proporre un’alternativa originale e
-      funzionale, pensata per utenti “semplici” e non necessariamente esperti.
+    <p>
+      Questo sito è stato sviluppato come progetto portfolio, con l’obiettivo di mostrare competenze sia tecniche che stilistiche. Il backend è stato realizzato con Express e MongoDB, gestito tramite Mongoose e supportato da una selezione di pacchetti npm per il routing, la logica applicativa e la persistenza dei dati.</p>
+    <p>
+      Il front-end segue una filosofia di pulizia visiva e minimalismo funzionale, con l’obiettivo di garantire un’interfaccia intuitiva e immediata. Ho scelto di utilizzare Bootstrap per valorizzare la coerenza visiva, ridurre i tempi di sviluppo e mantenere un design uniforme senza introdurre complessità superflue. Inoltre, ho preferito integrare API open invece di utilizzare badge preconfezionati, così da mantenere un maggiore controllo sul design e offrire una personalizzazione più flessibile.
     </p>
-  </div>
-  <div class="card-footer text-body-secondary">
-    <i>
-      <p>Creato da Daniele Ficcaroli</p>
-    </i>
+    <p>
+      Il sito è responsivo, si adatta a qualsiasi dispositivo e include il supporto per gli screen reader, così da garantire un livello base di accessibilità anche a utenti con disabilità visive.
+    </p>
+    <p>
+      Tra le possibili estensioni future, considero fondamentali: l’introduzione di una sezione profilo utente; la possibilità di interazione tra utenti; un sistema di follow, utile per seguire utenti rilevanti o influenti.
+    </p>
+    <p>
+      Per quanto riguarda la gestione delle immagini, ho scelto un approccio controllato, separando le foto già presenti nel database da quelle appena caricate. Questa soluzione riduce il rischio di cancellazioni accidentali e mantiene coerenza con il principio di ordine e chiarezza che ispira l’intero progetto. In futuro, la visualizzazione potrebbe essere resa più uniforme, pur conservando l’idea di un’alternativa semplice e funzionale, adatta anche a utenti non esperti.
+    </p>
   </div>
 </div>

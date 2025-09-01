@@ -12,8 +12,8 @@
     </div>
     <div class="d-inline-block">
       <h6>
-        <i><a href="https://www.google.com/maps/search/?api=1&query=<%= exp.title %>" class="text-primary-emphasis d-inline-block mt-1" target="_blank" rel="noopener noreferrer"></i>
-        <i class="fas fa-map-marker-alt"></i> Vedi su Google Maps</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=<%= exp.title %>" class="text-primary-emphasis d-inline-block mt-1" target="_blank" rel="noopener noreferrer" aria-label="Apri la posizione su Google Maps">
+          <i class="fas fa-map-marker-alt"></i> Vedi su Google Maps</a>
       </h6>
     </div>
   </div>
@@ -25,7 +25,7 @@
         <div class="carousel-inner">
           <% for (let img of exp.images) { %>
           <div class="carousel-item <%= img.filename === exp.images[0].filename ? 'active' : '' %>">
-            <img src="<%= img.url %>" class="card-img-top rounded" alt="..." />
+            <img src="<%= img.url %>" class="card-img-top rounded" alt="Foto dell’esperienza: <%= exp.title %>" />
           </div>
           <% } %>
         </div>
@@ -41,7 +41,7 @@
         <% } %>
       </div>
     </div>
-    <div class="col-12 col-md content-col px-0">
+    <div class="col-12 col-md content-col px-0 mt-3">
       <div class="card-body">
         <ul class="list-group list-group-flush mt-3">
           <li class="list-group-item ps-0 pt-0">
@@ -68,7 +68,7 @@
           <li class="list-group-item ps-0">
             <div class="container px-0 d-flex align-items-center">
               <h5 class="d-inline-block pt-2 pe-2">Voto:</h5>
-              <span class="d-inline-block starability-result" data-rating="<%= exp.rate %>"></span>
+              <span class="d-inline-block starability-result" data-rating="<%= exp.rate %>" aria-label="Valutazione: <%= exp.rate %> stelle"></span>
             </div>
           </li>
           <li class="list-group-item ps-0">
@@ -89,17 +89,17 @@
         <% if (currentUser && exp.author._id.equals(currentUser._id)) { %>
         <div class="card-body">
           <div class="d-flex gap-2">
-            <button class="btn-fixed btn btn-success flex-grow-1" onclick="window.location.href='/experiences/<%= exp._id %>/edit'">
+            <button role="button" class="btn-fixed btn btn-success flex-grow-1" aria-label="Modifica esperienza" onclick="window.location.href='/experiences/<%= exp._id %>/edit'">
               Modifica
             </button>
-            <button class="btn-fixed btn btn-danger flex-grow-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            <button role="button" class="btn-fixed btn btn-danger flex-grow-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" aria-label="Elimina esperienza">
               Elimina
             </button>
             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteLabel">
+                    <h5 class="modal-title" id="confirmDeleteLabel ">
                       Conferma eliminazione
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
@@ -145,8 +145,8 @@
         <span> <%= element.text %></span>
         <% if (currentUser && element.author._id.equals(currentUser._id)) { %>
         <form method="POST" action="/experiences/<%= exp._id %>/comments/<%= element._id %>?_method=DELETE">
-          <button type="submit" class="btn p-0 border-0 bg-transparent hover-opacity" aria-label="Close">
-            <img src="/images/closebutton.png" alt="Elimina" width="24" height="24" />
+          <button type="submit" class="position-absolute top-0 end-0 border-0 bg-transparent select-button" aria-label="Close" style="margin: 8px; padding: 0; width: 18px; height: 18px;">
+            <img src="/images/closebuttonX2.png" alt="Elimina" width="18" height="18" style="border-radius: 3px; display: block;" />
           </button>
         </form>
         <% } %>
@@ -160,7 +160,7 @@
     <form action="/experiences/<%= exp._id %>/comments" method="POST" class="needs-validation" novalidate>
       <div class="mb-3">
         <label class="form-label mt-2" for="text"></label>
-        <textarea class="form-control" name="comment[text]" id="text" cols="30" row="10" required></textarea>
+        <textarea class="form-control" name="comment[text]" id="text" cols="30" row="10" required aria-label="Scrivi il tuo commento"></textarea>
       </div>
       <button class="btn btn-primary btn-100">Invia</button>
     </form>
