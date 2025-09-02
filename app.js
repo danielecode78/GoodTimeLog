@@ -22,12 +22,7 @@ const userRoutes = require("./routes/usersRoutes");
 
 const setCurrentPage = require("./middlewares/setCurrentPage");
 
-// mongoose.connect("mongodb://localhost:27017/goodtimelog");
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connessione riuscita"))
-  .catch((err) => console.error("Errore connessione:", err.message));
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
