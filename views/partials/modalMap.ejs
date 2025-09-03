@@ -66,10 +66,11 @@
   <div class="card text-center" role="region" aria-label="Scheda esperienza">
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
-        <h6><time datetime="${el.date}">${dateit(el.date)}</time> — <strong>${el.description}</strong></h6>
+        <h5><time datetime="${el.date}">${dateit(el.date)}</time></h5>
+        <h5 aria-label="Titolo esperienza"><strong>${el.description}</strong></h5>
       </li>
-      <li class="list-group-item">presso <span aria-label="Titolo esperienza">${el.title}</span></li>
       <li class="list-group-item">
+        <h6>presso ${el.title}</h6>
         <span class="d-inline">${el.location}</span>
         <a href="https://www.google.com/maps/search/?api=1&query=${el.title}"
            target="_blank"
@@ -77,6 +78,10 @@
            aria-label="Apri ${el.title} su Google Maps">
           <i class="fas fa-map-marker-alt" aria-hidden="true"></i> Vedi su Google Maps
         </a>
+      </li>
+      <li class="list-group-item d-flex justify-content-center">
+        <p class="starability-result" aria-label="valutazione" data-rating="${el.rate}">
+        </p>
       </li>
       <li class="list-group-item">
       <a href="/experiences/${el._id}" class="btn btn-primary btn-sm mb-2 mb-md-0 text-white w-100" aria-label="Mostra dettagli esperienza">
